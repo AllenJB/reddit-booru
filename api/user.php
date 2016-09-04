@@ -95,7 +95,7 @@ namespace Api {
          * @param String $userName The user name to get
          * @param String $data Data to use to create the user if it doesn't exist. Otherwise, a call to the reddit API is used
          */
-        public function getByName($userName, $data = null) {
+        public static function getByName($userName, $data = null) {
             $cacheKey = 'User::GetByName_' . $userName;
             $retVal = Lib\Cache::Get($cacheKey);
 
