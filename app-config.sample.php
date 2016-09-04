@@ -31,6 +31,9 @@ define('THUMBNAIL_STORAGE', '/FULL/PATH/TO/THUMBNAILS');
 // Used to namespace this frontend in caching operations
 define('CACHE_PREFIX', 'RedditBooru');
 
+// Keep thumbnails for 14 days
+define('MAX_THUMBNAIL_DATE', 68400 * 14);
+
 // Use minified JavaScript. Recommended to be enabled for production, disabled for development
 define('USE_MIN_JS', true);
 

@@ -1,8 +1,6 @@
 <?php
 
-define('RB_ROOT', '/var/www/reddit-booru/');
-define('CACHE_DIR', 'cache/');
-define('MAX_THUMBNAIL_DATE', 68400 * 14); // Keep thumbnails for 14 days
+require_once('../app-config.php');
 
 /**
  * Redditbooru data cleaner
@@ -10,7 +8,7 @@ define('MAX_THUMBNAIL_DATE', 68400 * 14); // Keep thumbnails for 14 days
 
 function cleanThumbnailCache() {
 
-    $dir = opendir(RB_ROOT . CACHE_DIR);
+    $dir = opendir(THUMBNAIL_STORAGE);
     $files = 0;
     $bytes = 0;
 
@@ -18,7 +16,7 @@ function cleanThumbnailCache() {
 
     if ($dir) {
         while ($file = readdir($dir)) {
-            $path = RB_ROOT . CACHE_DIR . $file;
+            $path = THUMBNAIL_STORAGE . $file;
             if (is_file($path) && (filemtime($path) + MAX_THUMBNAIL_DATE) < time()) {
                 $files++;
                 $bytes += filesize($path);
