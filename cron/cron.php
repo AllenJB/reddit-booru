@@ -93,12 +93,18 @@ function processImage($url) {
         return $retVal;
     }
 
+    // Immediately create cached version of thumbnail
+    // This reduces the amount we have to perform this potentially resource expensive operation for frontend requests
+    $thumbPath = Lib\ImageLoader::createThumbnail($url, THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT);
+    if ($thumbPath === null) {
+        _log($logHead . 'Unable to create thumbnail');
+    }
+
     // Save all the various copies of the image
     $retVal = $image;
     _log($logHead . 'DONE');
 
     return $retVal;
-
 }
 
 /**

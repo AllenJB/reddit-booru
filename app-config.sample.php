@@ -28,6 +28,11 @@ define('THUMBNAIL_PATH', '/cache/');
 // where THUMBNAIL_PATH points.
 define('THUMBNAIL_STORAGE', '/FULL/PATH/TO/THUMBNAILS');
 
+// Thumbnail width and height
+// Note: This value is also hard-coded in views/imagesRow.hbs
+define('THUMBNAIL_HEIGHT', '300');
+define('THUMBNAIL_WIDTH', '300');
+
 // Used to namespace this frontend in caching operations
 define('CACHE_PREFIX', 'RedditBooru');
 

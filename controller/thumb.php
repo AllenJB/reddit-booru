@@ -56,47 +56,14 @@ namespace Controller {
      */
     public static function createThumbnail($url, $width, $height) {
 
-      // Take advantage of the mongo cache by loading through the image loader
-      $image = Lib\ImageLoader::fetchImage($url);
-      if ($image) {
-
-        $tmpFile = tempnam(sys_get_temp_dir(), 'thumb_');
-        file_put_contents($tmpFile, $image->data);
-        $image = new Imagick($tmpFile);
-        $image->setImageBackgroundColor('white');
-        $image = $image->flattenImages();
-        unlink($tmpFile);
-
-        if ($image) {
-
-            $width = $width > 0 ? $width : false;
-            $height = $height > 0 ? $height : false;
-
-            // The scheme for URL naming is set so that all the parameters can be inferred from the file name. They are
-            // - URL of file, base64 encoded with trailing == removed
-            // - height and width of thumbnail
-            $encodedUrl = Lib\ImageLoader::createThumbFilenamePath($url);
-            $outFile = $encodedUrl . '_' . $width . '_' . $height . '.jpg';
-
-            if ($image->getNumberImages() > 0) {
-                foreach ($image as $frame) {
-                    $image = $frame;
-                    break;
-                }
-            }
-
-            $image->cropThumbnailImage($width, $height);
-            $image->setFormat('JPEG');
-            $image->writeImage($outFile);
-            header('Content-Type: image/jpeg');
-            readfile($outFile);
-            exit;
-        }
-
-
-      } else {
-        // redirect to standard "error" image
+      $thumbPath = Lib\ImageLoader::createThumbnail($url, $width, $height);
+      if ($thumbPath !== null) {
+          header('Content-Type: image/jpeg');
+          readfile($thumbPath);
+          exit;
       }
+
+      header("HTTP/1.0 404 File Not Found");
     }
 
     public static function passThrough($url) {

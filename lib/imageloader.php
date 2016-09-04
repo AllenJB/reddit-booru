@@ -3,6 +3,7 @@
 namespace Lib {
 
     use Api;
+    use Imagick;
     use stdClass;
 
     define('IMAGE_TYPE_JPEG', 'jpg');
@@ -453,6 +454,53 @@ namespace Lib {
         public static function createThumbFilenamePath($url)
         {
             return THUMBNAIL_STORAGE . str_replace([ '=', '/' ], [ '-', '_' ], base64_encode($url));
+        }
+
+        /**
+         * Creates a thumbnail of the URL at the specified width and height the saves/displays it
+         * @param string $url URL to full image
+         * @param int $width Thumbnail width
+         * @param int $height Thumbnail height
+         * @return null|string Full path to thumbnail
+         */
+        public static function createThumbnail($url, $width, $height) {
+            // Take advantage of the mongo cache by loading through the image loader
+            $image = self::fetchImage($url);
+            if (!$image) {
+                return null;
+            }
+
+            $tmpFile = tempnam(sys_get_temp_dir(), 'thumb_');
+            file_put_contents($tmpFile, $image->data);
+            $imagick = new Imagick($tmpFile);
+            $imagick->setImageBackgroundColor('white');
+            $imagick = $imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+            unlink($tmpFile);
+
+            if (!is_object($imagick)) {
+                return null;
+            }
+
+            $width = $width > 0 ? $width : false;
+            $height = $height > 0 ? $height : false;
+
+            // The scheme for URL naming is set so that all the parameters can be inferred from the file name. They are
+            // - URL of file, base64 encoded with trailing == removed
+            // - height and width of thumbnail
+            $encodedUrl = self::createThumbFilenamePath($url);
+            $outFile = $encodedUrl . '_' . $width . '_' . $height . '.jpg';
+
+            if ($imagick->getNumberImages() > 0) {
+                foreach ($imagick as $frame) {
+                    $imagick = $frame;
+                    break;
+                }
+            }
+
+            $imagick->cropThumbnailImage($width, $height);
+            $imagick->setFormat('JPEG');
+            $imagick->writeImage($outFile);
+            return $outFile;
         }
 
     }
