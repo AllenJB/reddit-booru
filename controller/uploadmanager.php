@@ -94,13 +94,13 @@ namespace Controller {
                     if ($image->sync()) {
                         $retVal->imageId = $image->id;
                         $retVal->imageUrl = $image->getFilename(true);
-                        $retVal->thumb = Thumb::createThumbFilename($retVal->imageUrl);
+                        $retVal->thumb = Lib\ImageLoader::createThumbFilename($retVal->imageUrl);
                     } else {
                         $retVal->error = true;
                         $retVal->message = 'Error syncing image to database';
                     }
                 } else {
-                    $retVal->thumb = Thumb::createThumbFilename($imageUrl);
+                    $retVal->thumb = Lib\ImageLoader::createThumbFilename($imageUrl);
                 }
 
             } else {

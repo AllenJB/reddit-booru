@@ -442,6 +442,19 @@ namespace Lib {
 
         }
 
+        /**
+         * Encodes a URL for the cache filename
+         */
+        public static function createThumbFilename($url) {
+            return THUMBNAIL_PATH . str_replace([ '=', '/' ], [ '-', '_' ], base64_encode($url));
+        }
+
+
+        public static function createThumbFilenamePath($url)
+        {
+            return THUMBNAIL_STORAGE . str_replace([ '=', '/' ], [ '-', '_' ], base64_encode($url));
+        }
+
     }
 
 }

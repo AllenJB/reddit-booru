@@ -75,8 +75,8 @@ namespace Controller {
             // The scheme for URL naming is set so that all the parameters can be inferred from the file name. They are
             // - URL of file, base64 encoded with trailing == removed
             // - height and width of thumbnail
-            $encodedUrl = self::createThumbFilename($url);
-            $outFile = getcwd() . $encodedUrl . '_' . $width . '_' . $height . '.jpg';
+            $encodedUrl = Lib\ImageLoader::createThumbFilenamePath($url);
+            $outFile = $encodedUrl . '_' . $width . '_' . $height . '.jpg';
 
             if ($image->getNumberImages() > 0) {
                 foreach ($image as $frame) {
@@ -112,7 +112,7 @@ namespace Controller {
             $contentType .= $image->type;
         }
 
-        file_put_contents('.' . self::createThumbFilename($url) . '.jpg', $image->data);
+        file_put_contents(Lib\ImageLoader::createThumbFilenamePath($url) . '.jpg', $image->data);
 
         header('Content-Type: ' . $contentType);
         echo $image->data;

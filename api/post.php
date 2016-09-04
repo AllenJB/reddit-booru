@@ -246,7 +246,7 @@ namespace Api {
                             $post->galleryLink = $post->getGalleryUrl();
                             $image = new Image($row);
                             // I really need to sort this stuff out. Thumbs should probably be an "api"
-                            $post->posterImage = Controller\Thumb::createThumbFilename($image->getFilename(true));
+                            $post->posterImage = Lib\ImageLoader::createThumbFilename($image->getFilename(true));
                             $posts[] = $post;
                         }
                     }

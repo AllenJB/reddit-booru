@@ -175,7 +175,7 @@ namespace Controller {
 
             $retVal->results = Api\PostData::reverseImageSearch($vars);
             $retVal->original = $vars['imageUri'];
-            $retVal->preview = Thumb::createThumbFilename($retVal->original);
+            $retVal->preview = Lib\ImageLoader::createThumbFilename($retVal->original);
             $retVal->view = 'search';
 
             // We're going to decorate the sources by do an individual request

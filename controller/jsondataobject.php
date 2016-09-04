@@ -119,7 +119,7 @@ namespace Controller {
                 $this->userId = isset($row->user_id) ? (int) $row->user_id : null;
                 $this->baseUrl = isset($row->source_baseurl) ? $row->source_baseurl : null;
                 $this->sourceName = isset($row->source_name) ? $row->source_name : null;
-                $this->thumb = Thumb::createThumbFilename($this->cdnUrl);
+                $this->thumb = \Lib\ImageLoader::createThumbFilename($this->cdnUrl);
                 $this->idxInAlbum = isset($row->count) ? (int) $row->count : null;
                 $this->nsfw = isset($row->source_content_rating) ? (int) $row->source_content_rating !== 0 : false;
             }
