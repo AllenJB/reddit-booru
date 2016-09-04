@@ -17,7 +17,7 @@ namespace Lib {
 	 * @global $GLOBALS['_apiPath']
 	 * @name $_apiPath
 	 */
-	$GLOBALS['_apiPath'] = './';
+	$GLOBALS['_apiPath'] = '../';
 
 	/**
 	 * Number of times the API layer was hit
@@ -27,10 +27,10 @@ namespace Lib {
 	$GLOBALS['_apiHits'] = 0;
 
 	// Include the composer autoloader
-	require_once('./vendor/autoload.php');
+	require_once('../vendor/autoload.php');
 
 	// Include the DX API libraries
-	require_once('./lib/dxapi.php');
+	require_once('../lib/dxapi.php');
 	Api\DxApi::initialize();
 
 	class Dx {

@@ -1,7 +1,7 @@
 <?php
 
-require('app-config.php');
-require('lib/aal.php');
+require('../app-config.php');
+require('../lib/aal.php');
 
 define('ARG_SOURCE', 'source');
 define('ARG_SORT', 'sort');
