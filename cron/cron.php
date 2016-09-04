@@ -3,6 +3,7 @@
 require('../app-config.php');
 require('../lib/aal.php');
 
+ini_set('memory_limit', '1G');
 define('ARG_SOURCE', 'source');
 define('ARG_SORT', 'sort');
 define('ARG_PAGE_COUNT', 'page-count');
