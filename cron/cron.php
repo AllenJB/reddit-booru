@@ -72,6 +72,7 @@ function processImage($url) {
     _log($logHead . 'Downloading...');
     $imageData = Lib\ImageLoader::fetchImage($url);
     if (null === $imageData) {
+        LOG_FAILED_IMAGES && file_put_contents(LOG_FAILED_IMAGES, date('c') ." Error: Retrieve: ". $url ."\n", FILE_APPEND);
         _log($logHead . 'Unable to download image');
         return $retVal;
     }
@@ -80,6 +81,7 @@ function processImage($url) {
     _log($logHead . 'Processing...');
     $image = Api\Image::createFromBuffer($imageData->data);
     if (null === $image) {
+        LOG_FAILED_IMAGES && file_put_contents(LOG_FAILED_IMAGES, date('c') ." Error: Process: ". $url ."\n", FILE_APPEND);
         _log($logHead . 'Unable to process image');
         return $retVal;
     }
@@ -89,6 +91,7 @@ function processImage($url) {
 
     // Save to the database
     if (!$image->sync()) {
+        LOG_FAILED_IMAGES && file_put_contents(LOG_FAILED_IMAGES, date('c') ." Error: Sync: ". $url ."\n", FILE_APPEND);
         _log($logHead . 'Unable to sync image to database');
         return $retVal;
     }
@@ -97,6 +100,7 @@ function processImage($url) {
     // This reduces the amount we have to perform this potentially resource expensive operation for frontend requests
     $thumbPath = Lib\ImageLoader::createThumbnail($url, THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT);
     if ($thumbPath === null) {
+        LOG_FAILED_IMAGES && file_put_contents(LOG_FAILED_IMAGES, date('c') ." Error: Thumbnail: ". $url ."\n", FILE_APPEND);
         _log($logHead . 'Unable to create thumbnail');
     }
 

@@ -3,6 +3,9 @@
 // This is where the "backend" of RedditBooru lives. A single backend can serve multiple frontends.
 define('CORE_LOCATION', '/var/www/reddit-booru');
 
+// Location cron.php will log failures to. Set to null for no log
+define('LOG_FAILED_IMAGES', CORE_LOCATION . "data/log/cron.log");
+
 // Default page title
 define('DEFAULT_TITLE', '');
 
