@@ -1,7 +1,7 @@
 <?php
 
-require('../app-config.php');
-require('../lib/aal.php');
+require(__DIR__ .'/../app-config.php');
+require(CORE_LOCATION .'/lib/aal.php');
 
 ini_set('memory_limit', '1G');
 define('ARG_SOURCE', 'source');
